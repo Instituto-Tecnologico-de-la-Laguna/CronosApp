@@ -2,6 +2,10 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+
+    kotlin ("kapt") //Correccion de errores
+    id ("com.google.dagger.hilt.android")
+
 }
 
 android {
@@ -40,6 +44,33 @@ android {
 }
 
 dependencies {
+
+
+    // Room
+    val room_version = "2.6.1"
+    implementation ("androidx.room:room-ktx:$room_version")
+    kapt("androidx.room:room-compiler:$room_version")
+
+// Dagger Core
+    implementation ("com.google.dagger:dagger:2.46.1")
+    kapt ("com.google.dagger:dagger-compiler:2.46.1")
+
+// Dagger Android
+    api ("com.google.dagger:dagger-android:2.46.1")
+    api ("com.google.dagger:dagger-android-support:2.46.1")
+    kapt ("com.google.dagger:dagger-android-processor:2.46.1")
+
+
+    //  Dagger Hilt
+    implementation ("com.google.dagger:hilt-android:2.46.1")
+    kapt ("com.google.dagger:hilt-compiler:2.46.1")
+
+    //Navigation
+    val nav_version = "2.5.3"
+    implementation("androidx.navigation:navigation-compose:$nav_version")
+
+    // Swipe
+    implementation ("me.saket.swipe:swipe:1.1.1")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
