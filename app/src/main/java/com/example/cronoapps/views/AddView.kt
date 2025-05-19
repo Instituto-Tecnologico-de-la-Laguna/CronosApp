@@ -24,10 +24,12 @@ import androidx.compose.runtime.ComposableTarget
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.cronoapps.R
 import com.example.cronoapps.components.CircleButton
 import com.example.cronoapps.components.MainIconButton
 import com.example.cronoapps.components.MainTitle
@@ -81,27 +83,31 @@ fun ContentAddView(it:PaddingValues,navController: NavController,cronometroVM: C
             modifier=Modifier.padding(vertical=16.dp)
         ){
             //Iniciar
-            CircleButton(icon=Icons.Default.PlayArrow,
+            CircleButton(
+                icon= painterResource(id=R.drawable.play),
                 enabled=!state.cronometroActivo
             ) {
                 cronometroVM.iniciar()
             }
 
             //Pausar
-            CircleButton(icon=Icons.Default.Person,
+            CircleButton(
+                icon=painterResource(id=R.drawable.pause),
                 enabled=state.cronometroActivo
             ) {
                 cronometroVM.pausar()
             }
             //Detener
-            CircleButton(icon=Icons.Default.PlayArrow,
+            CircleButton(
+                icon=painterResource(id=R.drawable.stop),
                 enabled=!state.cronometroActivo
             ) {
                 cronometroVM.detener()
             }
 
             //Mostrar Guardar
-            CircleButton(icon=Icons.Default.PlayArrow,
+            CircleButton(
+                icon=painterResource(id=R.drawable.save),
                 enabled=state.showSaveButton
             ) {
                 cronometroVM.showTextField()
