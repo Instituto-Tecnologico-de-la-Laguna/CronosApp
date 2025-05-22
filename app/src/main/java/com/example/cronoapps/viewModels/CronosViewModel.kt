@@ -19,7 +19,7 @@ class CronosViewModel @Inject constructor(private val repository: CronosReposito
 
     init{
         viewModelScope.launch(Dispatchers.IO) {
-            repository.getAllCronos().collect{item->
+            repository.getAllCronos().collect {item->
                 if(item.isNullOrEmpty()){
                     _cronosList.value = emptyList()
                 }else{
