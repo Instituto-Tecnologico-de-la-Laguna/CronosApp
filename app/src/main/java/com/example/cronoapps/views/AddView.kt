@@ -32,13 +32,17 @@ import androidx.navigation.NavController
 import com.example.cronoapps.R
 import com.example.cronoapps.components.CircleButton
 import com.example.cronoapps.components.MainIconButton
+import com.example.cronoapps.components.MainTextField
 import com.example.cronoapps.components.MainTitle
 import com.example.cronoapps.components.formatTiempo
+import com.example.cronoapps.model.Cronos
 import com.example.cronoapps.viewModels.CronometroViewModel
+import com.example.cronoapps.viewModels.CronosViewModel
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddView(navController: NavController,cronometroVM: CronometroViewModel){
+fun AddView(navController: NavController,cronometroVM: CronometroViewModel,cronosVM: CronosViewModel){
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -54,12 +58,12 @@ fun AddView(navController: NavController,cronometroVM: CronometroViewModel){
             )
         }
     ) {
-        ContentAddView(it, navController,cronometroVM)
+        ContentAddView(it, navController,cronometroVM,cronosVM)
     }
 }
 
 @Composable
-fun ContentAddView(it:PaddingValues,navController: NavController,cronometroVM: CronometroViewModel){
+fun ContentAddView(it:PaddingValues,navController: NavController,cronometroVM: CronometroViewModel,cronos:CronosViewModel){
     val state = cronometroVM.state
 
     LaunchedEffect(state.cronometroActivo) {
@@ -113,7 +117,23 @@ fun ContentAddView(it:PaddingValues,navController: NavController,cronometroVM: C
                 cronometroVM.showTextField()
             }
         }
-
+        if(state.showTextField) {
+            MainTextField(
+                value=state.title,
+                onValueChange = {cronometroVM.onValue(it)},
+                label = "Titulo",
+            )
+            Button(onClick = {
+                cronos.addCrono(
+                    Cronos(
+                        title = state.title,
+                        crono = cronometroVM.tiempo
+                    ))
+                navController.popBackStack()
+            }) {
+                Text(text = "Guardar")
+            }
+        }
 
     }
 }
