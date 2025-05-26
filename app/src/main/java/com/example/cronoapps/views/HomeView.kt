@@ -60,8 +60,28 @@ fun ContentHomeView(it:PaddingValues,navController: NavController,cronosVM: Cron
         val cronoList by cronosVM.cronosList.collectAsState()
         LazyColumn {
             items(cronoList){ item->
-                CronCards(item.title,formatTiempo(item.crono)){}
+                val delete=SwipeAction(
+                    icon=rememberVectorPainter(Icons.Default.Delete),
+                    background = Color.Red,
+                    onSwipe = {cronosVM.deleteCrono(item)}
+                )
+                val delete2=SwipeAction(
+                    icon=rememberVectorPainter(Icons.Default.Delete),
+                    background = Color.Blue,
+                    onSwipe = {cronosVM.deleteCrono(item)}
+                )
 
+                SwipeableActionsBox(
+                    startActions = listOf(delete2),
+                    endActions =listOf(delete) ,
+                    swipeThreshold = 207.dp
+                ) {
+                    CronCards(item.title, formatTiempo(item.crono)) {
+                        navController.navigate("EditView/${item.id}")
+                    }
+
+
+                }
             }
         }
     }
