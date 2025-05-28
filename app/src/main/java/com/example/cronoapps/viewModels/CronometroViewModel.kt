@@ -5,17 +5,36 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.cronoapps.repository.CronosRepository
 import com.example.cronoapps.state.CronoState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import android.util.Log
 
-class CronometroViewModel:ViewModel() {
+@HiltViewModel
+class CronometroViewModel @Inject constructor(private val repository: CronosRepository):ViewModel() {
     var state by mutableStateOf(CronoState())
         private set
     var cronoJob by mutableStateOf<Job?>(null)
         private set
     var tiempo by mutableStateOf(0L)
+
+    fun getCronoById(id:Long){
+        viewModelScope.launch {
+            repository.getCronoById(id).collect{item->
+                if(item!=null) { //Se agrega if por error al eliminar
+                    tiempo = item.crono
+                    state = state.copy(title = item.title)
+                }else{
+                    Log.d("Error","El objeto crono es nulo")
+                }
+            }
+        }
+    }
+
     fun onValue(value: String){
         state = state.copy(
             title = value

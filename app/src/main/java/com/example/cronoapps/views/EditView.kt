@@ -16,6 +16,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,7 +42,7 @@ fun EditView(navController: NavController,cronometroVM: CronometroViewModel,cron
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { MainTitle(title = "Add Crono") },
+                title = { MainTitle(title = "Edit Crono") },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary
                 ),
@@ -65,6 +66,10 @@ fun ContentEditView(it:PaddingValues,navController: NavController,cronometroVM: 
         cronometroVM.cronos()
     }
 
+    LaunchedEffect(Unit) {
+        cronometroVM.getCronoById(id)
+    }
+
     Column(
         modifier = Modifier.padding(it)
             .padding(top = 30.dp)
@@ -76,7 +81,7 @@ fun ContentEditView(it:PaddingValues,navController: NavController,cronometroVM: 
             fontSize = 50.sp,
             fontWeight = FontWeight.Bold
         )
-        Text(text=id.toString())
+        //Text(text=id.toString())
         Row(
             horizontalArrangement=Arrangement.Center,
             modifier=Modifier.padding(vertical=16.dp)
@@ -96,37 +101,46 @@ fun ContentEditView(it:PaddingValues,navController: NavController,cronometroVM: 
             ) {
                 cronometroVM.pausar()
             }
-            //Detener
+            /*Detener
             CircleButton(
                 icon=painterResource(id=R.drawable.stop),
                 enabled=!state.cronometroActivo
             ) {
                 cronometroVM.detener()
-            }
+            }*/
 
-            //Mostrar Guardar
+            /*Mostrar Guardar
             CircleButton(
                 icon=painterResource(id=R.drawable.save),
                 enabled=state.showSaveButton
             ) {
                 cronometroVM.showTextField()
-            }
+            }*/
         }
-        if(state.showTextField) {
+        //if(state.showTextField) {
             MainTextField(
                 value=state.title,
                 onValueChange = {cronometroVM.onValue(it)},
                 label = "Titulo",
             )
             Button(onClick = {
-                cronos.addCrono(
+                //cronos.addCrono(
+                cronos.updateCrono(
                     Cronos(
+                        id = id, //agregar id
                         title = state.title,
                         crono = cronometroVM.tiempo
                     ))
+                //cronometroVM.detener()
                 navController.popBackStack()
             }) {
-                Text(text = "Guardar")
+                //Text(text = "Guardar")
+                Text(text = "Editar")
+            }
+        //}
+        DisposableEffect(Unit) {
+            onDispose {
+                cronometroVM.detener()
             }
         }
 
