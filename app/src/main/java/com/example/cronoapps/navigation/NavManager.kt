@@ -25,7 +25,7 @@ fun NavManager(cronometroVM: CronometroViewModel,cronosVM: CronosViewModel){
         composable("EditView/{id}",arguments = listOf(navArgument("id"){
             type= NavType.LongType})){
             val id=it.arguments?.getLong("id")?:0
-            EditView(navController,cronometroVM,cronosVM,id)
+                EditView(navController,cronometroVM,cronosVM,id)
         }
     }
 }

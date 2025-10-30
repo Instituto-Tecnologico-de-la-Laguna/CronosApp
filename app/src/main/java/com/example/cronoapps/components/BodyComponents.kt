@@ -73,7 +73,7 @@ fun CronCards(titulo:String,crono:String,onClick:()->Unit){
                     contentDescription="",
                     tint=Color.Gray
                 )
-                Text(text=crono,fontSize=20.sp)
+                Text(text=crono,fontSize=20 .sp)
             }
             Divider(
                 modifier=Modifier

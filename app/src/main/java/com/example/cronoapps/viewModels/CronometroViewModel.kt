@@ -14,13 +14,19 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import android.util.Log
 
+
+
 @HiltViewModel
-class CronometroViewModel @Inject constructor(private val repository: CronosRepository):ViewModel() {
+class CronometroViewModel @Inject constructor
+    (private val repository: CronosRepository):ViewModel() {
     var state by mutableStateOf(CronoState())
         private set
     var cronoJob by mutableStateOf<Job?>(null)
         private set
+
     var tiempo by mutableStateOf(0L)
+        private set
+
 
     fun getCronoById(id:Long){
         viewModelScope.launch {
